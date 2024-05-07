@@ -25,24 +25,20 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project findById(Integer id) {
-        return null;
+        return projectDAO.findById(id);
     }
 
     @Override
     @Transactional
-    public void add(Project theProject) {
-
+    public Project add(Project theProject) {
+        theProject.setProjectID(0);
+        return projectDAO.save(theProject);
     }
 
     @Override
     @Transactional
-    public void update(Project theProject) {
-
-    }
-
-    @Override
-    public Project save(Project theProject) {
-        return null;
+    public Project update(Project theProject) {
+        return projectDAO.save(theProject);
     }
 
     @Override

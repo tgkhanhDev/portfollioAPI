@@ -1,7 +1,9 @@
 package portfollio.myPortfollio.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "project")
@@ -27,9 +29,11 @@ public class Project {
     private String github;
 
     @OneToMany(mappedBy = "project")
+//    @JsonBackReference
     private List<ProjectTech> projectTechList;
 
     @OneToMany(mappedBy = "project")
+//    @JsonBackReference
     private List<ProjectFunc> projectFunctionsList;
 
     public Project(int projectID, String title, String subTitle, String purpose, String link, String github, List<ProjectTech> projectTechList, List<ProjectFunc> projectFunctionsList) {
@@ -108,5 +112,28 @@ public class Project {
 
     public void setProjectFunctionsList(List<ProjectFunc> projectFunctionsList) {
         this.projectFunctionsList = projectFunctionsList;
+    }
+
+    public void addProjectTech(ProjectTech tempProjectTech){
+        if (projectTechList == null){
+            projectTechList = new ArrayList<>();
+        }
+
+        projectTechList.add(tempProjectTech);
+        tempProjectTech.setProject(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectID=" + projectID +
+                ", title='" + title + '\'' +
+                ", subTitle='" + subTitle + '\'' +
+                ", purpose='" + purpose + '\'' +
+                ", link='" + link + '\'' +
+                ", github='" + github + '\'' +
+                ", projectTechList=" + projectTechList +
+                ", projectFunctionsList=" + projectFunctionsList +
+                '}';
     }
 }

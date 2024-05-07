@@ -9,11 +9,9 @@ public interface ProjectService {
 
     Project findById(Integer id);
 
-    void add(Project theProject);
+    Project add(Project theProject);
 
-    void update(Project theProject);
-
-    Project save(Project theProject);
+    Project update(Project theProject);
 
     void deleteById(Integer id);
 }

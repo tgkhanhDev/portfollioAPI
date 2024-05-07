@@ -28,22 +28,12 @@ public class ProjectDAOImpl implements ProjectDAO{
 
     @Override
     public Project findById(Integer id) {
-        return null;
-    }
-
-    @Override
-    public void add(Project theProject) {
-
-    }
-
-    @Override
-    public void update(Project theProject) {
-
+        return entityManager.find(Project.class, id);
     }
 
     @Override
     public Project save(Project theProject) {
-        return null;
+        return entityManager.merge(theProject);
     }
 
     @Override
