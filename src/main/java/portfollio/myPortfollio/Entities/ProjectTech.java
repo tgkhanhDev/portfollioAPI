@@ -1,50 +1,27 @@
 package portfollio.myPortfollio.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity(name="project_tech")
 @Table(name = "project_tech")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProjectTech {
     @Id
     @Column(name = "id")
-    private int id;
+    int id;
 
     @Column(name = "techName")
-    private String techName;
-    @ManyToOne
-    @JoinColumn(name="projectID")
-    private Project project;
-
-    public ProjectTech() {
-    }
-
-    public ProjectTech(int id, String techName, Project project) {
-        this.id = id;
-        this.techName = techName;
-        this.project = project;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTechName() {
-        return techName;
-    }
-
-    public void setTechName(String techName) {
-        this.techName = techName;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
+    String techName;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="projectID", referencedColumnName = "projectID")
+    @JsonBackReference
+    Project project;
 }

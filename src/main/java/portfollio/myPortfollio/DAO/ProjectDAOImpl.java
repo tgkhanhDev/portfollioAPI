@@ -38,6 +38,7 @@ public class ProjectDAOImpl implements ProjectDAO{
 
     @Override
     public void deleteById(Integer id) {
-
+        Project project = entityManager.find(Project.class,id);
+        entityManager.remove(project);
     }
 }

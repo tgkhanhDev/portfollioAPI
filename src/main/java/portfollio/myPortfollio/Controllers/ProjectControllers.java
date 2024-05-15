@@ -50,7 +50,15 @@ public class ProjectControllers implements REST<Project> {
         return projectService.update(item);
     }
     @Override
-    public String deleteItem(int id) {
-        return "";
+    @DeleteMapping("/{id}")
+    public String deleteItem(@PathVariable int id) {
+        Project prj = projectService.findById(id);
+//        projectService.deleteById(id);
+        if(prj == null){
+            throw new RuntimeException("Employee not found.");
+        }else{
+            projectService.deleteById(id);
+            return "Delete Success";
+        }
     }
 }

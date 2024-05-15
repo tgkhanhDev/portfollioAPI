@@ -42,7 +42,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
-
+        projectDAO.deleteById(id);
     }
 }
