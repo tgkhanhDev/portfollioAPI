@@ -50,7 +50,7 @@ public class Project {
         }
 
         projectTechList.add(tempProjectTech);
-        tempProjectTech.setProject(this);
+//        tempProjectTech.setProject(this);
     }
 
 }
