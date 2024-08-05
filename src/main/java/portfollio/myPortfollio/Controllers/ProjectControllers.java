@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import portfollio.myPortfollio.Entities.Project;
+import portfollio.myPortfollio.pojos.Project;
 import portfollio.myPortfollio.Services.ProjectService;
 
 import java.util.List;

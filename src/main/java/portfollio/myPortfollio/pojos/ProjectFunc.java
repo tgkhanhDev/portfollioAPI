@@ -1,7 +1,6 @@
-package portfollio.myPortfollio.Entities;
+package portfollio.myPortfollio.pojos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

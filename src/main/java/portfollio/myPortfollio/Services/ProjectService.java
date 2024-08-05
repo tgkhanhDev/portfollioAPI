@@ -1,6 +1,6 @@
 package portfollio.myPortfollio.Services;
 
-import portfollio.myPortfollio.Entities.Project;
+import portfollio.myPortfollio.pojos.Project;
 
 import java.util.List;
 

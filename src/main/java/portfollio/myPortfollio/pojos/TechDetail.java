@@ -1,4 +1,4 @@
-package portfollio.myPortfollio.Entities;
+package portfollio.myPortfollio.pojos;
 
 import jakarta.persistence.*;
 import lombok.*;
