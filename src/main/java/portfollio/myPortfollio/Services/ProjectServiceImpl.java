@@ -2,13 +2,14 @@ package portfollio.myPortfollio.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import portfollio.myPortfollio.pojos.Project;
 import portfollio.myPortfollio.repositories.ProjectRepository;
 
 import java.util.List;
 
-@Repository
+@Service
 public class ProjectServiceImpl implements ProjectService {
 
 //    ProjectDAO projectDAO;

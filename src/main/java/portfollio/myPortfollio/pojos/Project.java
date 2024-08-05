@@ -2,6 +2,7 @@ package portfollio.myPortfollio.pojos;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
