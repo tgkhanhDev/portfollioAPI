@@ -23,10 +23,10 @@ public class AccountControllers {
         return accountService.getAllAccount();
     }
 
-    @PostMapping("/login")
-    public AccountDTO login(@RequestBody AccountRequest accountRequest) {
-        return accountService.login(accountRequest);
-    }
+//    @PostMapping("/login")
+//    public AccountDTO login(@RequestBody AccountRequest accountRequest) {
+//        return accountService.login(accountRequest);
+//    }
 
     @PostMapping("/{Account}")
     public Account getAccountById(@RequestBody Account account) {
