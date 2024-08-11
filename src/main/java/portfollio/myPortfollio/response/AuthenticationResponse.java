@@ -22,6 +22,7 @@ public class AuthenticationResponse {
     @NotNull
     @NotEmpty
     String token;
+    int code;
     boolean authenticated;
 
 }

@@ -35,6 +35,7 @@ public class AuthenticationService {
     @NotNull
     @Value("${SIGNER_KEY}")
     protected String SIGNER_KEY;
+
     @Autowired
     public AuthenticationService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
@@ -45,12 +46,18 @@ public class AuthenticationService {
         var user = accountRepository.findByUsername(authenticationRequest.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
         boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
         if(!authenticated) {
-            throw new RuntimeException("Not Authenticated");
+//            throw new RuntimeException("Not Authenticated");
+            return AuthenticationResponse.builder()
+                    .token("Unauthorized")
+                    .code(400)
+                    .authenticated(authenticated)
+                    .build();
         }
         var token = generateToken(authenticationRequest.getUsername());
         return AuthenticationResponse.builder()
                 .token(token)
-                .authenticated(true)
+                .code(200)
+                .authenticated(authenticated)
                 .build();
     }
 
@@ -84,8 +91,6 @@ public class AuthenticationService {
 
         //Check is token expire?
         Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-
-
 
         var verified = signedJWT.verify(verifier);
 
