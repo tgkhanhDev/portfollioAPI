@@ -29,7 +29,7 @@ public class AccountControllers {
 //    }
 
     @PostMapping("/{Account}")
-    public Account getAccountById(@RequestBody Account account) {
+    public Account getAccountById(@RequestBody Account account) throws Exception {
         return accountService.createAccount(account);
     }
 }

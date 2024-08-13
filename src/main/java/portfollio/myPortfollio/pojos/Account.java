@@ -6,6 +6,8 @@ import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Entity
 @Table(name="account")
 @Data
@@ -18,7 +20,7 @@ public class Account {
     @Id
     String username;
     String password;
-    int role;
+    Set<String> role;
 
 
 }

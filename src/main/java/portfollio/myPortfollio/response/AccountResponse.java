@@ -1,17 +1,16 @@
-package portfollio.myPortfollio.dtos;
+package portfollio.myPortfollio.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountDTO {
+public class AccountResponse {
+    String id;
     String username;
-    String password;
-    Set<String> role;
+//    String password;
+    int role;
 }

@@ -18,4 +18,5 @@ public class AuthenticationRequest {
     @NotNull(message = "Vui lòng nhập đầy đủ password!")
     @NotEmpty(message = "Vui lòng nhập đầy đủ password!")
     String password;
+
 }

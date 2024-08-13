@@ -6,11 +6,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import portfollio.myPortfollio.dtos.AccountDTO;
+import portfollio.myPortfollio.enums.Role;
 import portfollio.myPortfollio.mapper.AccountMapper;
 import portfollio.myPortfollio.pojos.Account;
 import portfollio.myPortfollio.repositories.AccountRepository;
 import portfollio.myPortfollio.request.AccountRequest;
 
+import java.util.HashSet;
 import java.util.List;
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -50,7 +52,21 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     @Transactional
-    public Account createAccount(Account account) {
+    public Account createAccount(Account account) throws Exception {
+        if(accountRepository.existsByUsername(account.getUsername())) {
+            throw new Exception("Username already exists");
+        }
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.GUEST.name());
+
+        account.setRole(roles);
+
+
+
         return accountRepository.save(account);
     }
 }
