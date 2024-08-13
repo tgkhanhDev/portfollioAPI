@@ -42,29 +42,13 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-//        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(10);
-//        var user = accountRepository.findByUsername(authenticationRequest.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-//        boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
-//        System.out.println("authenticationRequest.getPassword(): " + authenticationRequest.getPassword());
-//        System.out.println("user.getPassword(): " + user.getPassword());
-//
-//        if(!authenticated) {
-////            throw new RuntimeException("Not Authenticated");
-//            return AuthenticationResponse.builder()
-//                    .token("Unauthorized")
-//                    .code(400)
-//                    .authenticated(authenticated)
-//                    .build();
-//        }
-//        var token = generateToken(authenticationRequest.getUsername());
-//        return AuthenticationResponse.builder()
-//                .token(token)
-//                .code(200)
-//                .authenticated(authenticated)
-//                .build();
+
         PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(10);
+        System.out.println("Before");
         var user = accountRepository.findByUsername(authenticationRequest.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        System.out.println("user: "+ user);
 
         boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
 
