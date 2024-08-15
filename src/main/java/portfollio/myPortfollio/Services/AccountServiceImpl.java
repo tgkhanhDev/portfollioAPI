@@ -10,6 +10,7 @@ import portfollio.myPortfollio.mapper.AccountMapper;
 import portfollio.myPortfollio.pojos.Account;
 import portfollio.myPortfollio.repositories.AccountRepository;
 import portfollio.myPortfollio.request.AccountRequest;
+import portfollio.myPortfollio.response.ApiResponse;
 
 import java.util.List;
 @Service
@@ -17,15 +18,23 @@ public class AccountServiceImpl implements AccountService{
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+    //encode
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper) {
+    public AccountServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
+        this.passwordEncoder = passwordEncoder;
     }
     @Override
-    public List<AccountDTO> getAllAccount() {
+    public ApiResponse<List<AccountDTO>> getAllAccount() {
         List<Account> acc = accountRepository.findAll();
-        return accountMapper.toAccountDTOList(accountRepository.findAll());
+        return ApiResponse.<List<AccountDTO>>builder()
+                .code("200")
+                .message("success")
+                .data(accountMapper.toAccountDTOList(acc))
+                .build();
     }
 
     @Override
@@ -33,8 +42,6 @@ public class AccountServiceImpl implements AccountService{
         //get account from request
         Account account = accountRepository.getReferenceById(accountRequest.getUsername());
 
-        //encode
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
         //save back to account
         account.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
@@ -50,7 +57,16 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     @Transactional
-    public Account createAccount(Account account) {
+    public Account createAccount(Account request) {
+        if (accountRepository.existsByUsername(request.getUsername())) {
+//            throw new AppException(ErrorCode.USER_EXISTED);
+            return null;
+        }
+
+        Account account = new Account(request.getUsername(),"","");
+
+        account.setPassword(passwordEncoder.encode(request.getPassword()));
+        account.setRole("GUEST");
         return accountRepository.save(account);
     }
 }

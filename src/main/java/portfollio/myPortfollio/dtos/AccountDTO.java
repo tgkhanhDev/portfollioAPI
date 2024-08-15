@@ -9,5 +9,5 @@ import lombok.experimental.FieldDefaults;
 public class AccountDTO {
     String username;
     String password;
-    int role;
+    String role;
 }

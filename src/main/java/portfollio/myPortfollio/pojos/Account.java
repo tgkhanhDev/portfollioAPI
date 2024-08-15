@@ -18,7 +18,7 @@ public class Account {
     @Id
     String username;
     String password;
-    int role;
+    String role;
 
 
 }
