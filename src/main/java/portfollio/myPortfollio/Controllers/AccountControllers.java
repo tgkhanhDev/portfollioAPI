@@ -1,5 +1,6 @@
 package portfollio.myPortfollio.Controllers;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import portfollio.myPortfollio.Services.AccountService;
 import portfollio.myPortfollio.dtos.AccountDTO;
 import portfollio.myPortfollio.pojos.Account;
+import portfollio.myPortfollio.request.AccountRequest;
 import portfollio.myPortfollio.response.ApiResponse;
 
 import java.util.List;
@@ -27,18 +29,25 @@ public class AccountControllers {
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        System.out.println("Username: {}"+ authentication.getName());
-        authentication.getAuthorities().forEach(grantedAuthority -> System.out.println(grantedAuthority.getAuthority()));
+//        System.out.println("Username: {}"+ authentication.getName());
+//        authentication.getAuthorities().forEach(grantedAuthority -> System.out.println(grantedAuthority.getAuthority()));
 
         return accountService.getAllAccount();
     }
 
-    @PostMapping
-    public Account createAccount(@RequestBody Account account) {
+    @GetMapping("/myInfo")
+    public ApiResponse<AccountDTO> getMyInfo() {
+        return accountService.getMyInfo();
+    }
 
+
+    @PostMapping
+    public Account createAccount(@RequestBody @Valid AccountRequest account) {
         return accountService.createAccount(account);
 //            return "Hello World";
     }
+
+
 
 
 }

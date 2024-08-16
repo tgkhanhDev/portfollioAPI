@@ -78,42 +78,42 @@ public class AuthenticationService {
 //        return stringJoiner.toString();
 //    }
 
-private String generateToken(Account account) {
-    JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-    JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-            .subject(account.getUsername())
-            .issuer("localhost") //domain service
-            .issueTime(new Date())
-            .expirationTime(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-            .claim("scope", account.getRole())
-            .build();
-    Payload payload = new Payload(jwtClaimsSet.toJSONObject());
-    JWSObject jwsObject = new JWSObject(header, payload);
-    try {
-        jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));  // need an algorithm
-        return jwsObject.serialize();
-    } catch (JOSEException e) {
-        System.out.println(("Cannot Create Token" + e));
-        throw new RuntimeException(e);
+    private String generateToken(Account account) {
+        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
+                .subject(account.getUsername())
+                .issuer("localhost") //domain service
+                .issueTime(new Date())
+                .expirationTime(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .claim("scope", account.getRole())
+                .build();
+        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
+        JWSObject jwsObject = new JWSObject(header, payload);
+        try {
+            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));  // need an algorithm
+            return jwsObject.serialize();
+        } catch (JOSEException e) {
+            System.out.println(("Cannot Create Token" + e));
+            throw new RuntimeException(e);
+        }
     }
-}
 
-public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
-    var token = request.getToken();
+    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
+        var token = request.getToken();
 
-    JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
 
-    //Check is token correct?
-    SignedJWT signedJWT = SignedJWT.parse(token);
+        //Check is token correct?
+        SignedJWT signedJWT = SignedJWT.parse(token);
 
-    //Check is token expire?
-    Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+        //Check is token expire?
+        Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
-    var verified = signedJWT.verify(verifier);
+        var verified = signedJWT.verify(verifier);
 
-    return IntrospectResponse.builder()
-            .valid(verified && expityTime.after(new Date()))
-            .build();
-}
+        return IntrospectResponse.builder()
+                .valid(verified && expityTime.after(new Date()))
+                .build();
+    }
 
 }

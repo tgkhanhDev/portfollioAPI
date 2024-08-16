@@ -14,5 +14,9 @@ public interface AccountService {
     public AccountDTO login(AccountRequest accountRequest);
     public AccountDTO updateAccount(Account account);
 
-    public Account createAccount(Account account);
+    public Account createAccount(AccountRequest account);
+
+    public ApiResponse<AccountDTO> getAccount(String id);
+
+    public ApiResponse<AccountDTO> getMyInfo();
 }
