@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import portfollio.myPortfollio.pojos.Account;
+import portfollio.myPortfollio.pojos.Role;
 import portfollio.myPortfollio.repositories.AccountRepository;
 
 @Configuration
@@ -25,7 +26,8 @@ public class ApplicationInitConfig {
                 Account account = Account.builder()
                         .username("administrator")
                         .password(passwordEncoder.encode("admin"))
-                        .role("ADMIN").build();
+//                        .roles(new Role("ADMIN","abc"))
+                        .build();
                 accountRepository.save(account);
                 log.warn("administrator user has been created with default password: admin, please change it later");
             }

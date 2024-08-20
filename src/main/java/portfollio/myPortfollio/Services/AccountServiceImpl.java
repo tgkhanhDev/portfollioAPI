@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import portfollio.myPortfollio.Exception.AppException;
+import portfollio.myPortfollio.Exception.ErrorCode;
 import portfollio.myPortfollio.dtos.AccountDTO;
 import portfollio.myPortfollio.mapper.AccountMapper;
 import portfollio.myPortfollio.pojos.Account;
@@ -36,7 +38,7 @@ public class AccountServiceImpl implements AccountService{
     @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<List<AccountDTO>> getAllAccount() {
         log.info("In method get Accounts!!!!!!!!!!!!!!");
-        List<Account> acc = accountRepository.findAll();
+        List<Account> acc = accountRepository.findAll().stream().toList();
         return ApiResponse.<List<AccountDTO>>builder()
                 .code("200")
                 .message("success")
@@ -67,23 +69,24 @@ public class AccountServiceImpl implements AccountService{
     public Account createAccount(AccountRequest request) {
         if (accountRepository.existsByUsername(request.getUsername())) {
 //            throw new AppException(ErrorCode.USER_EXISTED);
-            throw new RuntimeException("User existed");
+            throw new AppException(ErrorCode.USER_EXISTED);
 //            return null;
         }
 
-        Account account = new Account(request.getUsername(),"","");
+        Account account = new Account(request.getUsername(), "123");
 
         account.setPassword(passwordEncoder.encode(request.getPassword()));
-        account.setRole("GUEST");
+//        account.setRole("GUEST");
         return accountRepository.save(account);
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<AccountDTO> getMyInfo(){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
-        Account account = accountRepository.findByUsername(name).orElseThrow(() -> new RuntimeException("User not exist"));
+        Account account = accountRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.UNAUTHORIZED));
 
         return ApiResponse.<AccountDTO>builder()
                 .message("Get My Info Success")

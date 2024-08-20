@@ -85,7 +85,7 @@ public class AuthenticationService {
                 .issuer("localhost") //domain service
                 .issueTime(new Date())
                 .expirationTime(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                .claim("scope", account.getRole())
+//                .claim("scope", account.getRole())
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header, payload);
