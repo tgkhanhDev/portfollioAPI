@@ -3,20 +3,22 @@ package portfollio.myPortfollio.Services;
 import portfollio.myPortfollio.dtos.AccountDTO;
 import portfollio.myPortfollio.pojos.Account;
 import portfollio.myPortfollio.request.AccountRequest;
+import portfollio.myPortfollio.request.AccountUpdateRequest;
+import portfollio.myPortfollio.response.AccountResponse;
 import portfollio.myPortfollio.response.ApiResponse;
 
 import java.util.List;
 
 public interface AccountService {
 
-    public ApiResponse<List<AccountDTO>> getAllAccount();
+    public List<AccountResponse> getAllAccount();
 
-    public AccountDTO login(AccountRequest accountRequest);
-    public AccountDTO updateAccount(Account account);
+    public AccountResponse login(AccountRequest accountRequest);
+    public AccountResponse updateAccount(String accountUsername, AccountUpdateRequest accountUpdateRequest);
 
-    public Account createAccount(AccountRequest account);
+    public AccountResponse createAccount(AccountRequest account);
 
-    public ApiResponse<AccountDTO> getAccount(String id);
+    public AccountResponse getAccount(String id);
 
-    public ApiResponse<AccountDTO> getMyInfo();
+    public AccountResponse getMyInfo();
 }

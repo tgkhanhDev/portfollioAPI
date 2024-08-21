@@ -82,10 +82,10 @@ public class AuthenticationService {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(account.getUsername())
-                .issuer("localhost") //domain service
+                .issuer("gkhanh.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-//                .claim("scope", account.getRole())
+                .claim("scope", buildScope(account))
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header, payload);
@@ -96,6 +96,22 @@ public class AuthenticationService {
             System.out.println(("Cannot Create Token" + e));
             throw new RuntimeException(e);
         }
+    }
+
+    private String buildScope(Account account) {
+        StringJoiner stringJoiner = new StringJoiner(" ");
+
+        if (!CollectionUtils.isEmpty(account.getRoles())) {
+            account.getRoles().forEach(role -> {
+                stringJoiner.add(role.getName());
+                if (!CollectionUtils.isEmpty(role.getPermissions())) {
+                    role.getPermissions().forEach(permission -> {
+                        stringJoiner.add(permission.getName());
+                    });
+                }
+            });
+        }
+        return stringJoiner.toString();
     }
 
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {

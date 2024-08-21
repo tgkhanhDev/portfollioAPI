@@ -1,33 +1,32 @@
 package portfollio.myPortfollio.mapper;
 
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import portfollio.myPortfollio.dtos.AccountDTO;
 import portfollio.myPortfollio.pojos.Account;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.InheritInverseConfiguration;
+import portfollio.myPortfollio.request.AccountRequest;
+import portfollio.myPortfollio.request.AccountUpdateRequest;
+import portfollio.myPortfollio.response.AccountResponse;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AccountMapper {
 
-//    AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
-//
-//    @ManagedOperation
-//    default AccountDTO mapToAccountDTO(Account account) {
-//        return INSTANCE.toAccountDTO(account);
-//    }
+    @Mapping(source="username" ,target = "username")
+    @Mapping(source="password" ,target = "password")
+    Account toAccount(AccountRequest accountRequest);
 
     @Mapping(source="username" ,target = "username")
     @Mapping(source="password" ,target = "password")
-//    @Mapping(source="roles" ,target = "roles")
-    AccountDTO toAccountDTO(Account account);
+    AccountResponse toAccountResponse(Account account);
 
-    @InheritInverseConfiguration(name = "toAccountDTO")
-    Account toAccount(AccountDTO accountDTO);
+    List<AccountResponse> toAccountResponseList(List<Account> accounts);
 
-    List<AccountDTO> toAccountDTOList(List<Account> accounts);
+    //This will modify but remain roles the same
+    @Mapping(target = "roles", ignore = true)
+    void updateAccount(@MappingTarget Account user, AccountUpdateRequest request);
+
+
 }

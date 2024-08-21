@@ -10,6 +10,8 @@ import portfollio.myPortfollio.Services.AccountService;
 import portfollio.myPortfollio.dtos.AccountDTO;
 import portfollio.myPortfollio.pojos.Account;
 import portfollio.myPortfollio.request.AccountRequest;
+import portfollio.myPortfollio.request.AccountUpdateRequest;
+import portfollio.myPortfollio.response.AccountResponse;
 import portfollio.myPortfollio.response.ApiResponse;
 
 import java.util.List;
@@ -25,29 +27,46 @@ public class AccountControllers {
     }
 
     @GetMapping
-    public ApiResponse<List<AccountDTO>> getAllAccount() {
+    public ApiResponse<List<AccountResponse>> getAllAccount() {
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
 //        System.out.println("Username: {}"+ authentication.getName());
 //        authentication.getAuthorities().forEach(grantedAuthority -> System.out.println(grantedAuthority.getAuthority()));
-
-        return accountService.getAllAccount();
+//
+        return ApiResponse.<List<AccountResponse>>builder()
+                .data(accountService.getAllAccount())
+                .code("200")
+                .message("Get list account success")
+                .build();
     }
 
     @GetMapping("/myInfo")
-    public ApiResponse<AccountDTO> getMyInfo() {
-        return accountService.getMyInfo();
-    }
+    public ApiResponse<AccountResponse> getMyInfo() {
 
+        return ApiResponse.<AccountResponse>builder()
+                .data(accountService.getMyInfo())
+                .code("200")
+                .message("Get list account success")
+                .build();
+    }
 
     @PostMapping
-    public Account createAccount(@RequestBody @Valid AccountRequest account) {
-        return accountService.createAccount(account);
-//            return "Hello World";
+    public ApiResponse<AccountResponse> createAccount(@RequestBody @Valid AccountRequest account) {
+        return ApiResponse.<AccountResponse>builder()
+                .code("200")
+                .message("Create account success")
+                .data(accountService.createAccount(account))
+                .build();
     }
 
-
-
+    @PutMapping("/update/{username}")
+    public ApiResponse<AccountResponse> updateAccount(@PathVariable String username, @RequestBody AccountUpdateRequest account) {
+        return ApiResponse.<AccountResponse>builder()
+                .code("200")
+                .message("Update account success")
+                .data(accountService.updateAccount(username, account))
+                .build();
+    }
 
 }
