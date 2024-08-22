@@ -1,9 +1,7 @@
 package portfollio.myPortfollio.Services;
 
-import portfollio.myPortfollio.pojos.Permission;
-import portfollio.myPortfollio.request.PermissionRequest;
-import portfollio.myPortfollio.response.ApiResponse;
-import portfollio.myPortfollio.response.PermissionResponse;
+import portfollio.myPortfollio.dtos.request.PermissionRequest;
+import portfollio.myPortfollio.dtos.response.PermissionResponse;
 
 import java.util.List;
 

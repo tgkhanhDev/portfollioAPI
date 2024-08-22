@@ -6,9 +6,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import portfollio.myPortfollio.Services.PermissionService;
-import portfollio.myPortfollio.request.PermissionRequest;
-import portfollio.myPortfollio.response.ApiResponse;
-import portfollio.myPortfollio.response.PermissionResponse;
+import portfollio.myPortfollio.dtos.request.PermissionRequest;
+import portfollio.myPortfollio.dtos.response.ApiResponse;
+import portfollio.myPortfollio.dtos.response.PermissionResponse;
 
 import java.util.List;
 

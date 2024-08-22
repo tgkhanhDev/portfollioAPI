@@ -1,4 +1,4 @@
-package portfollio.myPortfollio.response;
+package portfollio.myPortfollio.dtos.response;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

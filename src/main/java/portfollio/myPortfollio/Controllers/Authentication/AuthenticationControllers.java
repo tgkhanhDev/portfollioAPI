@@ -3,11 +3,11 @@ import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import portfollio.myPortfollio.Services.AuthenticationService;
-import portfollio.myPortfollio.request.AuthenticationRequest;
-import portfollio.myPortfollio.request.IntrospectRequest;
-import portfollio.myPortfollio.response.ApiResponse;
-import portfollio.myPortfollio.response.AuthenticationResponse;
-import portfollio.myPortfollio.response.IntrospectResponse;
+import portfollio.myPortfollio.dtos.request.AuthenticationRequest;
+import portfollio.myPortfollio.dtos.request.IntrospectRequest;
+import portfollio.myPortfollio.dtos.response.ApiResponse;
+import portfollio.myPortfollio.dtos.response.AuthenticationResponse;
+import portfollio.myPortfollio.dtos.response.IntrospectResponse;
 
 import java.text.ParseException;
 

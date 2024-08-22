@@ -1,4 +1,4 @@
-package portfollio.myPortfollio.response;
+package portfollio.myPortfollio.dtos.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

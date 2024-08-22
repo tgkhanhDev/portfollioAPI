@@ -1,4 +1,4 @@
-package portfollio.myPortfollio.request;
+package portfollio.myPortfollio.dtos.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

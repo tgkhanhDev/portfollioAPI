@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import portfollio.myPortfollio.Exception.ErrorCode;
-import portfollio.myPortfollio.response.ApiResponse;
+import portfollio.myPortfollio.dtos.response.ApiResponse;
 
 import java.io.IOException;
 

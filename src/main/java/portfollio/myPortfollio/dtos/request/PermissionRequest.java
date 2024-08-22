@@ -1,4 +1,4 @@
-package portfollio.myPortfollio.response;
+package portfollio.myPortfollio.dtos.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PermissionResponse {
+public class PermissionRequest {
     String name;
     String description;
 }

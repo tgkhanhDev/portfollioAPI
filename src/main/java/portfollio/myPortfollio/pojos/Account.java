@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -27,8 +28,6 @@ public class Account {
 
     @ManyToMany
     Set<Role> roles;
+    LocalDate dob;
 
-
-    public Account(@NotNull(message = "Vui lòng nhập đầy đủ username!") @NotEmpty(message = "Vui lòng nhập đầy đủ username!") @Size(min = 3, message = "USERNAME_INVALID") String username, String number) {
-    }
 }

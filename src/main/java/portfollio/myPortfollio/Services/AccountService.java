@@ -1,11 +1,8 @@
 package portfollio.myPortfollio.Services;
 
-import portfollio.myPortfollio.dtos.AccountDTO;
-import portfollio.myPortfollio.pojos.Account;
-import portfollio.myPortfollio.request.AccountRequest;
-import portfollio.myPortfollio.request.AccountUpdateRequest;
-import portfollio.myPortfollio.response.AccountResponse;
-import portfollio.myPortfollio.response.ApiResponse;
+import portfollio.myPortfollio.dtos.request.AccountRequest;
+import portfollio.myPortfollio.dtos.request.AccountUpdateRequest;
+import portfollio.myPortfollio.dtos.response.AccountResponse;
 
 import java.util.List;
 

@@ -5,22 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import portfollio.myPortfollio.Exception.AppException;
 import portfollio.myPortfollio.Exception.ErrorCode;
-import portfollio.myPortfollio.dtos.AccountDTO;
+import portfollio.myPortfollio.enums.Role;
 import portfollio.myPortfollio.mapper.AccountMapper;
-import portfollio.myPortfollio.mapper.RoleMapper;
 import portfollio.myPortfollio.pojos.Account;
 import portfollio.myPortfollio.repositories.AccountRepository;
 import portfollio.myPortfollio.repositories.RoleRepository;
-import portfollio.myPortfollio.request.AccountRequest;
-import portfollio.myPortfollio.request.AccountUpdateRequest;
-import portfollio.myPortfollio.response.AccountResponse;
-import portfollio.myPortfollio.response.ApiResponse;
+import portfollio.myPortfollio.dtos.request.AccountRequest;
+import portfollio.myPortfollio.dtos.request.AccountUpdateRequest;
+import portfollio.myPortfollio.dtos.response.AccountResponse;
 
 import java.util.HashSet;
 import java.util.List;
@@ -85,15 +82,16 @@ public class AccountServiceImpl implements AccountService{
     @Transactional
     public AccountResponse createAccount(AccountRequest request) {
         if (accountRepository.existsByUsername(request.getUsername())) {
-//            throw new AppException(ErrorCode.USER_EXISTED);
             throw new AppException(ErrorCode.USER_EXISTED);
-//            return null;
         }
 
-        Account account = new Account(request.getUsername(), "123");
+        Account account = accountMapper.toAccount(request);
 
         account.setPassword(passwordEncoder.encode(request.getPassword()));
-//        account.setRole("GUEST");
+
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.GUEST.name());
+
         return accountMapper.toAccountResponse(accountRepository.save(account));
     }
 

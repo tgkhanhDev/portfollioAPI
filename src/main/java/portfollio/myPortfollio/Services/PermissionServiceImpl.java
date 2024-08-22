@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import portfollio.myPortfollio.mapper.PermissionMapper;
 import portfollio.myPortfollio.pojos.Permission;
 import portfollio.myPortfollio.repositories.PermissionRepository;
-import portfollio.myPortfollio.request.PermissionRequest;
-import portfollio.myPortfollio.response.ApiResponse;
-import portfollio.myPortfollio.response.PermissionResponse;
+import portfollio.myPortfollio.dtos.request.PermissionRequest;
+import portfollio.myPortfollio.dtos.response.PermissionResponse;
 
 import java.util.List;
 

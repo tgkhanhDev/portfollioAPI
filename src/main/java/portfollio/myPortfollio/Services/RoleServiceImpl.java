@@ -11,8 +11,8 @@ import portfollio.myPortfollio.mapper.RoleMapper;
 import portfollio.myPortfollio.pojos.Role;
 import portfollio.myPortfollio.repositories.PermissionRepository;
 import portfollio.myPortfollio.repositories.RoleRepository;
-import portfollio.myPortfollio.request.RoleRequest;
-import portfollio.myPortfollio.response.RoleResponse;
+import portfollio.myPortfollio.dtos.request.RoleRequest;
+import portfollio.myPortfollio.dtos.response.RoleResponse;
 
 import java.util.HashSet;
 import java.util.List;

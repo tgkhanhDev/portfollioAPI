@@ -1,4 +1,4 @@
-package portfollio.myPortfollio.request;
+package portfollio.myPortfollio.dtos.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class IntrospectRequest {
-    String token;
+public class IntrospectResponse {
+
+    boolean valid;
 }

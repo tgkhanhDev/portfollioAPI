@@ -18,7 +18,9 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, "Unauthenticated, Your TOKEN may expired!", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1006, "You does not have permission", HttpStatus.FORBIDDEN),
     ROLE_INVALID(1007, "Role invalid", HttpStatus.BAD_REQUEST),
-    PERMISSION_INVALID(1007, "Permission invalid", HttpStatus.BAD_REQUEST);
+    PERMISSION_INVALID(1009, "Permission invalid", HttpStatus.BAD_REQUEST),
+    INVALID_DOB(1009, "Invalid date of birth", HttpStatus.BAD_REQUEST);
+
 
 //    USER_NOT_EXISTED("USER_NOT_EXISTED", "User not existed"),
 //    INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR", "Internal server error"),

@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,15 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import portfollio.myPortfollio.pojos.Account;
 import portfollio.myPortfollio.repositories.AccountRepository;
-import portfollio.myPortfollio.request.AuthenticationRequest;
-import portfollio.myPortfollio.request.IntrospectRequest;
-import portfollio.myPortfollio.response.ApiResponse;
-import portfollio.myPortfollio.response.AuthenticationResponse;
-import portfollio.myPortfollio.response.IntrospectResponse;
+import portfollio.myPortfollio.dtos.request.AuthenticationRequest;
+import portfollio.myPortfollio.dtos.request.IntrospectRequest;
+import portfollio.myPortfollio.dtos.response.AuthenticationResponse;
+import portfollio.myPortfollio.dtos.response.IntrospectResponse;
 
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.StringJoiner;
 
