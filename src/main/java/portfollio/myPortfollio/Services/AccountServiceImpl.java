@@ -43,7 +43,8 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('APPROVE_POST')")
     public List<AccountResponse> getAllAccount() {
         log.info("In method get Accounts!!!!!!!!!!!!!!");
         List<Account> acc = accountRepository.findAll().stream().toList();
@@ -97,7 +98,7 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public AccountResponse getMyInfo(){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();

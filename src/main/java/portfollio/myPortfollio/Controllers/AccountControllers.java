@@ -3,6 +3,7 @@ package portfollio.myPortfollio.Controllers;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class AccountControllers {
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-//        System.out.println("Username: {}"+ authentication.getName());
-//        authentication.getAuthorities().forEach(grantedAuthority -> System.out.println(grantedAuthority.getAuthority()));
+        System.out.println("Username: {}"+ authentication.getName());
+        authentication.getAuthorities().forEach(grantedAuthority -> System.out.println(grantedAuthority.getAuthority()));
 //
         return ApiResponse.<List<AccountResponse>>builder()
                 .data(accountService.getAllAccount())
