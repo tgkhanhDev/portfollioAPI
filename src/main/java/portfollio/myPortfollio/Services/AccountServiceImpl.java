@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import portfollio.myPortfollio.Exception.AppException;
 import portfollio.myPortfollio.Exception.ErrorCode;
-import portfollio.myPortfollio.enums.Role;
 import portfollio.myPortfollio.mapper.AccountMapper;
 import portfollio.myPortfollio.pojos.Account;
+import portfollio.myPortfollio.pojos.Role;
 import portfollio.myPortfollio.repositories.AccountRepository;
 import portfollio.myPortfollio.repositories.RoleRepository;
 import portfollio.myPortfollio.dtos.request.AccountRequest;
@@ -89,10 +89,28 @@ public class AccountServiceImpl implements AccountService{
 
         account.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.GUEST.name());
+        HashSet<Role> roles = new HashSet<>();
 
+        Role roleGuest = roleRepository.getByName(portfollio.myPortfollio.enums.Role.GUEST.name());
+
+        roles.add(roleGuest);
+
+        account.setRoles(roles);
+
+//        System.out.println("Account: "+ account.toString());
         return accountMapper.toAccountResponse(accountRepository.save(account));
+    }
+
+    @Override
+    @Transactional
+    public void DeleteAccount(AccountRequest request) {
+
+        Account account = accountRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USERNAME_INVALID));
+        if(!passwordEncoder.matches(request.getPassword(), account.getPassword())){
+            throw new AppException(ErrorCode.PASSWORD_INVALID);
+        }
+
+        accountRepository.deleteByUsername(request.getUsername());
     }
 
     @Override

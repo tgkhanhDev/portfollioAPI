@@ -21,7 +21,7 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping("")
-    public ApiResponse<List<RoleResponse>> getAllPermission() {
+    public ApiResponse<List<RoleResponse>> getAllRoles() {
         List<RoleResponse> role = roleService.getAll();
 
         return ApiResponse.<List<RoleResponse>>builder()
@@ -29,8 +29,16 @@ public class RoleController {
                 .build();
     }
 
+    @GetMapping("/{name}")
+    public ApiResponse<RoleResponse> getRole(@PathVariable String name) {
+
+        return ApiResponse.<RoleResponse>builder()
+                .data(roleService.getRole(name))
+                .build();
+    }
+
     @PostMapping("")
-    public ApiResponse<RoleResponse> createPermission(@RequestBody RoleRequest request) {
+    public ApiResponse<RoleResponse> createRoles(@RequestBody RoleRequest request) {
 
         RoleResponse permission = roleService.create(request);
 
@@ -40,7 +48,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{role}")
-    public ApiResponse<Void> deletePermission(@PathVariable String role) {
+    public ApiResponse<Void> deleteRoles(@PathVariable String role) {
         roleService.delete(role);
 
         return ApiResponse.<Void>builder()

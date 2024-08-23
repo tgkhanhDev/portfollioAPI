@@ -30,6 +30,13 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> getRoles() {
         return roleRepository.findAll();
     }
+
+    @Override
+    public RoleResponse getRole(String name) {
+        Role role = roleRepository.getByName(name);
+        return roleMapper.toRoleResponse(role);
+    }
+
     @Override
     public RoleResponse create(RoleRequest request){
 
@@ -57,4 +64,6 @@ public class RoleServiceImpl implements RoleService {
     public void delete(String role){
         roleRepository.deleteById(role);
     }
+
+
 }

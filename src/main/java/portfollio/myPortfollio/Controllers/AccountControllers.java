@@ -66,4 +66,12 @@ public class AccountControllers {
                 .build();
     }
 
+    @DeleteMapping("/delete")
+    public ApiResponse<Void> DeleteAccount(@RequestBody AccountRequest account) {
+        accountService.DeleteAccount(account);
+        return ApiResponse.<Void>builder()
+                .code("200")
+                .message("Delete account success")
+                .build();
+    }
 }

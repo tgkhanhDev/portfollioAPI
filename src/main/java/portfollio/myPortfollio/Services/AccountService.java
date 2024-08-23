@@ -15,7 +15,10 @@ public interface AccountService {
 
     public AccountResponse createAccount(AccountRequest account);
 
+    void DeleteAccount(AccountRequest account);
+
     public AccountResponse getAccount(String id);
 
     public AccountResponse getMyInfo();
+
 }

@@ -7,5 +7,5 @@ import portfollio.myPortfollio.pojos.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String>{
-
+    Role getByName(String name);
 }
