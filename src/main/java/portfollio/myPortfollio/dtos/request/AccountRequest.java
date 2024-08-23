@@ -24,6 +24,6 @@ public class AccountRequest {
     @Size(min = 8, max = 20, message = "PASSWORD_INVALID")
     String password;
 
-    @DobConstraint(min = 2, message = "INVALID_DOB")
+    @DobConstraint(min = 6, message = "INVALID_DOB")
     LocalDate dob;
 }
