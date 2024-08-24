@@ -30,7 +30,7 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS_POST = { "/auth/token", "/auth/introspect", "/account", "/auth/logout" };
+    private final String[] PUBLIC_ENDPOINTS_POST = { "/auth/token", "/auth/introspect", "/account", "/auth/logout", "/auth/refresh" };
 
     @Autowired
     private  CustomJwtDecoder customJwtDecoder;

@@ -6,6 +6,7 @@ import portfollio.myPortfollio.Services.AuthenticationService;
 import portfollio.myPortfollio.dtos.request.AuthenticationRequest;
 import portfollio.myPortfollio.dtos.request.IntrospectRequest;
 import portfollio.myPortfollio.dtos.request.LogoutRequest;
+import portfollio.myPortfollio.dtos.request.RefreshRequest;
 import portfollio.myPortfollio.dtos.response.ApiResponse;
 import portfollio.myPortfollio.dtos.response.AuthenticationResponse;
 import portfollio.myPortfollio.dtos.response.IntrospectResponse;
@@ -46,5 +47,12 @@ public class AuthenticationControllers {
                 .build();
     }
 
+    @PostMapping("/refresh")
+    public ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshRequest request) throws ParseException, JOSEException {
+        AuthenticationResponse isAuthenticated = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .data(isAuthenticated)
+                .build();
+    }
 
 }

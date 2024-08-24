@@ -18,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import portfollio.myPortfollio.Exception.AppException;
 import portfollio.myPortfollio.Exception.ErrorCode;
 import portfollio.myPortfollio.dtos.request.LogoutRequest;
+import portfollio.myPortfollio.dtos.request.RefreshRequest;
 import portfollio.myPortfollio.pojos.Account;
 import portfollio.myPortfollio.pojos.InvalidatedToken;
 import portfollio.myPortfollio.repositories.AccountRepository;
@@ -102,6 +103,30 @@ public class AuthenticationService {
                 .build();
 
         invalidatedTokenRepository.save(invalidatedToken);
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
+        var signedJWT = verifyToken(request.getToken());
+
+        String jid = signedJWT.getJWTClaimsSet().getJWTID();
+        var expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jid)
+                .expityTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
+
+        var username = signedJWT.getJWTClaimsSet().getSubject();
+
+        var user = accountRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USERNAME_INVALID));
+        var token = generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(token)
+                .code(200)  // 200 OK
+                .authenticated(true)
+                .build();
     }
 
     private String generateToken(Account account) {
