@@ -2,6 +2,7 @@ package portfollio.myPortfollio.Configuration;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +30,10 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS_POST = { "/auth/token", "/auth/introspect", "/account"};
+    private final String[] PUBLIC_ENDPOINTS_POST = { "/auth/token", "/auth/introspect", "/account", "/auth/logout" };
 
-    @Value("${SIGNER_KEY}")
-    private String SIGNER_KEY; //key for JWTDecoder
+    @Autowired
+    private  CustomJwtDecoder customJwtDecoder;
 
     //Here, we will config which endpoint that user can access, which is not
     @Bean
@@ -45,7 +46,7 @@ public class SecurityConfig {
 
         //OAuth2 //decoder: decoder is a interface, and use for decode a token
         httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
+                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
                         .jwtAuthenticationConverter(jwtAuthenticationConverter())
                 )
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
@@ -56,13 +57,14 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS512");
-        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    }
+    //Already change to better Decoder intergrated with logout token, make it unuseable
+//    @Bean
+//    JwtDecoder jwtDecoder() {
+//        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS512");
+//        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
+//                .macAlgorithm(MacAlgorithm.HS512)
+//                .build();
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder(){

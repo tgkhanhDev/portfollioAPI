@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import portfollio.myPortfollio.Services.AuthenticationService;
 import portfollio.myPortfollio.dtos.request.AuthenticationRequest;
 import portfollio.myPortfollio.dtos.request.IntrospectRequest;
+import portfollio.myPortfollio.dtos.request.LogoutRequest;
 import portfollio.myPortfollio.dtos.response.ApiResponse;
 import portfollio.myPortfollio.dtos.response.AuthenticationResponse;
 import portfollio.myPortfollio.dtos.response.IntrospectResponse;
@@ -37,7 +38,13 @@ public class AuthenticationControllers {
                 .build();
     }
 
-
+    @PostMapping("/logout")
+    public ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws JOSEException, ParseException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
+                .message("Logout success")
+                .build();
+    }
 
 
 }

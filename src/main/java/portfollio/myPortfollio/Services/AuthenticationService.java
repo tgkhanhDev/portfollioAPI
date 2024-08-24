@@ -15,30 +15,40 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import portfollio.myPortfollio.Exception.AppException;
+import portfollio.myPortfollio.Exception.ErrorCode;
+import portfollio.myPortfollio.dtos.request.LogoutRequest;
 import portfollio.myPortfollio.pojos.Account;
+import portfollio.myPortfollio.pojos.InvalidatedToken;
 import portfollio.myPortfollio.repositories.AccountRepository;
 import portfollio.myPortfollio.dtos.request.AuthenticationRequest;
 import portfollio.myPortfollio.dtos.request.IntrospectRequest;
 import portfollio.myPortfollio.dtos.response.AuthenticationResponse;
 import portfollio.myPortfollio.dtos.response.IntrospectResponse;
+import portfollio.myPortfollio.repositories.InvalidatedTokenRepository;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationService {
+
     AccountRepository accountRepository;
+
 
     @NotNull
     @Value("${SIGNER_KEY}")
     protected String SIGNER_KEY;
+    private final InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Autowired
-    public AuthenticationService(AccountRepository accountRepository) {
+    public AuthenticationService(AccountRepository accountRepository, InvalidatedTokenRepository invalidatedTokenRepository) {
         this.accountRepository = accountRepository;
+        this.invalidatedTokenRepository = invalidatedTokenRepository;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
@@ -65,14 +75,34 @@ public class AuthenticationService {
                 .build();
     }
 
-//!!!  Use for Set<> role
-//    private String buildScope(Account account){
-//        StringJoiner stringJoiner = new StringJoiner(" ");
-//        if(CollectionUtils.isEmpty(account.getRole())){
-//            account.getRole().forEach(stringJoiner::add);
-//        }
-//        return stringJoiner.toString();
-//    }
+    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
+        var token = request.getToken();
+
+        boolean isValid = true;
+        try{
+            verifyToken(token);
+        }catch (AppException e){
+            isValid=false;
+        }
+
+        return IntrospectResponse.builder()
+                .valid(isValid)
+                .build();
+    }
+
+    public void logout(LogoutRequest request) throws ParseException, JOSEException {
+        var signToken = verifyToken(request.getToken());
+
+        String jid = signToken.getJWTClaimsSet().getJWTID();
+        Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jid)
+                .expityTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
+    }
 
     private String generateToken(Account account) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
@@ -81,6 +111,7 @@ public class AuthenticationService {
                 .issuer("gkhanh.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .jwtID(UUID.randomUUID().toString())
                 .claim("scope", buildScope(account))
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -110,8 +141,7 @@ public class AuthenticationService {
         return stringJoiner.toString();
     }
 
-    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
-        var token = request.getToken();
+    private SignedJWT verifyToken(String token) throws JOSEException, ParseException{
 
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
 
@@ -123,9 +153,15 @@ public class AuthenticationService {
 
         var verified = signedJWT.verify(verifier);
 
-        return IntrospectResponse.builder()
-                .valid(verified && expityTime.after(new Date()))
-                .build();
+        if(!(verified && expityTime.after(new Date()))){
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
+
+        if(invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())){
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
+
+        return signedJWT;
     }
 
 }
