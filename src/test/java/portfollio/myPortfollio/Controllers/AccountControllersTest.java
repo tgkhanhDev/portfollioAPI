@@ -1,8 +1,8 @@
 package portfollio.myPortfollio.Controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -16,13 +16,16 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import lombok.extern.slf4j.Slf4j;
 import portfollio.myPortfollio.Services.AccountService;
 import portfollio.myPortfollio.dtos.request.AccountRequest;
 import portfollio.myPortfollio.dtos.response.AccountResponse;
 import portfollio.myPortfollio.pojos.Role;
 import portfollio.myPortfollio.repositories.RoleRepository;
-import java.time.LocalDate;
-import java.util.Set;
 
 @Slf4j
 @SpringBootTest
@@ -35,6 +38,7 @@ public class AccountControllersTest {
 
     @MockBean
     private AccountService accountService;
+
     @MockBean
     private RoleRepository roleRepository;
 
@@ -53,15 +57,14 @@ public class AccountControllersTest {
                 .dob(dob)
                 .build();
 
-
         Role roleGuest = roleRepository.getByName("GUEST");
         System.out.println("RoleGuest:::" + roleGuest);
-//        roles.add(roleGuest);
+        //        roles.add(roleGuest);
 
         accountResponse = AccountResponse.builder()
                 .username("JohnDoe")
                 .dob(dob)
-//                .roles(roles.stream().map(roleMapper::toRoleResponse).collect(Collectors.toSet()))
+                //                .roles(roles.stream().map(roleMapper::toRoleResponse).collect(Collectors.toSet()))
                 .build();
     }
 
@@ -72,16 +75,14 @@ public class AccountControllersTest {
         objectMapper.registerModule(new JavaTimeModule());
         String content = objectMapper.writeValueAsString(request);
 
-        //Will mock data when access accountService.createAccount
+        // Will mock data when access accountService.createAccount
         Mockito.when(accountService.createAccount(ArgumentMatchers.any())).thenReturn(accountResponse);
 
         // WHEN
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/account")
+        mockMvc.perform(MockMvcRequestBuilders.post("/account")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-        ;
+                .andExpect(MockMvcResultMatchers.status().isOk());
         // THEN
     }
 
@@ -93,18 +94,16 @@ public class AccountControllersTest {
         objectMapper.registerModule(new JavaTimeModule());
         String content = objectMapper.writeValueAsString(request);
 
-        //Will mock data when access accountService.createAccount
+        // Will mock data when access accountService.createAccount
         Mockito.when(accountService.createAccount(ArgumentMatchers.any())).thenReturn(accountResponse);
 
         // WHEN
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/account")
+        mockMvc.perform(MockMvcRequestBuilders.post("/account")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("1002"))
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Độ dài tên phải tối thiểu 3 ký tự!"))
-        ;
+                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Độ dài tên phải tối thiểu 3 ký tự!"));
         // THEN
     }
 }

@@ -1,8 +1,8 @@
 package portfollio.myPortfollio.Services;
 
-import portfollio.myPortfollio.pojos.Project;
-
 import java.util.List;
+
+import portfollio.myPortfollio.pojos.Project;
 
 public interface ProjectService {
     List<Project> findAll();

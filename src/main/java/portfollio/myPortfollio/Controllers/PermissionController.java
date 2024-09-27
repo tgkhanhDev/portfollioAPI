@@ -1,16 +1,17 @@
 package portfollio.myPortfollio.Controllers;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
 import portfollio.myPortfollio.Services.PermissionService;
 import portfollio.myPortfollio.dtos.request.PermissionRequest;
 import portfollio.myPortfollio.dtos.response.ApiResponse;
 import portfollio.myPortfollio.dtos.response.PermissionResponse;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/permissions")
@@ -24,9 +25,7 @@ public class PermissionController {
     public ApiResponse<List<PermissionResponse>> getAllPermission() {
         List<PermissionResponse> permissions = permissionService.getAllPermisson();
 
-        return ApiResponse.<List<PermissionResponse>>builder()
-                .data(permissions)
-                .build();
+        return ApiResponse.<List<PermissionResponse>>builder().data(permissions).build();
     }
 
     @PostMapping("")
@@ -34,18 +33,13 @@ public class PermissionController {
 
         PermissionResponse permission = permissionService.create(request);
 
-        return  ApiResponse.<PermissionResponse>builder()
-                .data(permission)
-                .build();
+        return ApiResponse.<PermissionResponse>builder().data(permission).build();
     }
 
     @DeleteMapping("/{permisison}")
     public ApiResponse<Void> deletePermission(@PathVariable String permisison) {
         permissionService.delete(permisison);
 
-        return ApiResponse.<Void>builder()
-                .build();
+        return ApiResponse.<Void>builder().build();
     }
-
-
 }

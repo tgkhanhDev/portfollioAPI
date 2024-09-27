@@ -1,7 +1,9 @@
 package portfollio.myPortfollio.pojos;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,8 +23,7 @@ public class ProjectFunc {
     String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="projectID", referencedColumnName = "projectID")
+    @JoinColumn(name = "projectID", referencedColumnName = "projectID")
     @JsonBackReference
     Project project;
-
 }

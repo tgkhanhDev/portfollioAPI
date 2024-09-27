@@ -1,14 +1,15 @@
 package portfollio.myPortfollio.pojos;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 @Entity(name = "project")
-@Table(name="project")
+@Table(name = "project")
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,8 +18,9 @@ import java.util.List;
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="projectID")
+    @Column(name = "projectID")
     int projectID;
+
     @Column(name = "title")
     String title;
 
@@ -31,7 +33,7 @@ public class Project {
     @Column(name = "link")
     String link;
 
-    @Column(name="github")
+    @Column(name = "github")
     String github;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
@@ -40,13 +42,12 @@ public class Project {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
     List<ProjectFunc> projectFunctionsList;
 
-    public void addProjectTech(ProjectTech tempProjectTech){
-        if (projectTechList == null){
+    public void addProjectTech(ProjectTech tempProjectTech) {
+        if (projectTechList == null) {
             projectTechList = new ArrayList<>();
         }
 
         projectTechList.add(tempProjectTech);
-//        tempProjectTech.setProject(this);
+        //        tempProjectTech.setProject(this);
     }
-
 }

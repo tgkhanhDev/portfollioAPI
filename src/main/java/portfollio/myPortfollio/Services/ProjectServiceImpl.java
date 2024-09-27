@@ -1,18 +1,18 @@
 package portfollio.myPortfollio.Services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import portfollio.myPortfollio.pojos.Project;
 import portfollio.myPortfollio.repositories.ProjectRepository;
-
-import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
-//    ProjectDAO projectDAO;
+    //    ProjectDAO projectDAO;
     private final ProjectRepository projectRepository;
 
     @Autowired
@@ -28,8 +28,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findById(Integer id) {
         return projectRepository.getReferenceById(id);
-        //findById: can use methods like isPresent(), ifPresent(), or orElse() to handle the presence or absence of the entity;
-        //getReferenceById: it returns the entity if it exists, otherwise it throws an exception
+        // findById: can use methods like isPresent(), ifPresent(), or orElse() to handle the presence or absence of the
+        // entity;
+        // getReferenceById: it returns the entity if it exists, otherwise it throws an exception
     }
 
     @Override

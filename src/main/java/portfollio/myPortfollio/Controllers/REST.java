@@ -7,9 +7,9 @@ public interface REST<T> {
 
     T getById(int id);
 
-    T addItem(T item); //post
+    T addItem(T item); // post
 
-    T updateItem(T item); //put
+    T updateItem(T item); // put
 
-    String deleteItem(int id); //Del
+    String deleteItem(int id); // Del
 }

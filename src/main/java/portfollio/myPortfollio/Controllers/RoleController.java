@@ -1,16 +1,17 @@
 package portfollio.myPortfollio.Controllers;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
 import portfollio.myPortfollio.Services.RoleService;
 import portfollio.myPortfollio.dtos.request.RoleRequest;
 import portfollio.myPortfollio.dtos.response.ApiResponse;
 import portfollio.myPortfollio.dtos.response.RoleResponse;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/role")
@@ -24,9 +25,7 @@ public class RoleController {
     public ApiResponse<List<RoleResponse>> getAllRoles() {
         List<RoleResponse> role = roleService.getAll();
 
-        return ApiResponse.<List<RoleResponse>>builder()
-                .data(role)
-                .build();
+        return ApiResponse.<List<RoleResponse>>builder().data(role).build();
     }
 
     @GetMapping("/{name}")
@@ -42,18 +41,13 @@ public class RoleController {
 
         RoleResponse permission = roleService.create(request);
 
-        return  ApiResponse.<RoleResponse>builder()
-                .data(permission)
-                .build();
+        return ApiResponse.<RoleResponse>builder().data(permission).build();
     }
 
     @DeleteMapping("/{role}")
     public ApiResponse<Void> deleteRoles(@PathVariable String role) {
         roleService.delete(role);
 
-        return ApiResponse.<Void>builder()
-                .build();
+        return ApiResponse.<Void>builder().build();
     }
-
-
 }

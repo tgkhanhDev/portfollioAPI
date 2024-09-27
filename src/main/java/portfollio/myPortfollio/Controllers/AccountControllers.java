@@ -1,17 +1,20 @@
 package portfollio.myPortfollio.Controllers;
 
+import java.util.List;
+
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import lombok.extern.slf4j.Slf4j;
 import portfollio.myPortfollio.Services.AccountService;
 import portfollio.myPortfollio.dtos.request.AccountRequest;
 import portfollio.myPortfollio.dtos.request.AccountUpdateRequest;
 import portfollio.myPortfollio.dtos.response.AccountResponse;
 import portfollio.myPortfollio.dtos.response.ApiResponse;
 
-import java.util.List;
 @RestController
 @RequestMapping("/account")
 @Slf4j
@@ -28,9 +31,11 @@ public class AccountControllers {
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        System.out.println("Username: {}"+ authentication.getName());
-        authentication.getAuthorities().forEach(grantedAuthority -> System.out.println(grantedAuthority.getAuthority()));
-//
+        System.out.println("Username: {}" + authentication.getName());
+        authentication
+                .getAuthorities()
+                .forEach(grantedAuthority -> System.out.println(grantedAuthority.getAuthority()));
+        //
         return ApiResponse.<List<AccountResponse>>builder()
                 .data(accountService.getAllAccount())
                 .code("200")
@@ -58,7 +63,8 @@ public class AccountControllers {
     }
 
     @PutMapping("/update/{username}")
-    public ApiResponse<AccountResponse> updateAccount(@PathVariable String username, @RequestBody AccountUpdateRequest account) {
+    public ApiResponse<AccountResponse> updateAccount(
+            @PathVariable String username, @RequestBody AccountUpdateRequest account) {
         return ApiResponse.<AccountResponse>builder()
                 .code("200")
                 .message("Update account success")

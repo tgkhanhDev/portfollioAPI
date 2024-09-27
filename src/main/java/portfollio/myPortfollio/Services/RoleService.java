@@ -1,10 +1,10 @@
 package portfollio.myPortfollio.Services;
 
-import portfollio.myPortfollio.pojos.Role;
+import java.util.List;
+
 import portfollio.myPortfollio.dtos.request.RoleRequest;
 import portfollio.myPortfollio.dtos.response.RoleResponse;
-
-import java.util.List;
+import portfollio.myPortfollio.pojos.Role;
 
 public interface RoleService {
     public List<Role> getRoles();

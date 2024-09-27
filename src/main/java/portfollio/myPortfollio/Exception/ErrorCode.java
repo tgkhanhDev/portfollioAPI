@@ -1,9 +1,10 @@
 package portfollio.myPortfollio.Exception;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,13 +22,11 @@ public enum ErrorCode {
     PERMISSION_INVALID(1009, "Permission invalid", HttpStatus.BAD_REQUEST),
     INVALID_DOB(1009, "Your age must be at least {min}", HttpStatus.BAD_REQUEST);
 
-
-//    USER_NOT_EXISTED("USER_NOT_EXISTED", "User not existed"),
-//    INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR", "Internal server error"),
-//    UNAUTHORIZED("UNAUTHORIZED", "Unauthorized"),
+    //    USER_NOT_EXISTED("USER_NOT_EXISTED", "User not existed"),
+    //    INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR", "Internal server error"),
+    //    UNAUTHORIZED("UNAUTHORIZED", "Unauthorized"),
 
     int code;
     String message;
     HttpStatusCode statusCode;
-
 }

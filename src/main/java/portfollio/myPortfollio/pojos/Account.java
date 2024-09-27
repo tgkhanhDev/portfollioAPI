@@ -1,17 +1,15 @@
 package portfollio.myPortfollio.pojos;
 
+import java.time.LocalDate;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -24,10 +22,11 @@ public class Account {
 
     @Id
     String username;
+
     String password;
 
     @ManyToMany
     Set<Role> roles;
-    LocalDate dob;
 
+    LocalDate dob;
 }
